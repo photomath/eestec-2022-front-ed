@@ -1,0 +1,19 @@
+.TableWrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  box-sizing: border-box;
+  align-items: flex-end;
+}
+
+.ActionButton {
+  margin-top: -0.125rem;
+  margin-bottom: -0.125rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: 0.2rem;
+}
+
+.IdColumn {
+  width: 256px;
+}

@@ -1,6 +1,8 @@
 import { Route, Routes } from 'react-router-dom'
+import { MOCK_BALANCE_SHEET } from './api/mocks'
 
 import './App.css'
+import { TransactionTable } from './components/TransactionTable'
 import { LoginForm } from './pages/Login'
 import { SignUpForm } from './pages/SignUp'
 
@@ -11,6 +13,19 @@ function App() {
         <Route path='/' element={<div>TODO</div>} />
         <Route path='/login' element={<LoginForm onLogin={() => {}} />} />
         <Route path='/signup' element={<SignUpForm onSignUp={() => {}} />} />
+        <Route
+          path='/transactions'
+          element={
+            <TransactionTable
+              currentPage={0}
+              pages={5}
+              transactions={MOCK_BALANCE_SHEET}
+              onPageClick={() => {}}
+              onTransactionDelete={() => {}}
+              onTransactionEdit={() => {}}
+            />
+          }
+        />
       </Routes>
     </div>
   )
