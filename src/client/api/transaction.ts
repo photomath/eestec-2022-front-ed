@@ -1,6 +1,8 @@
 import { CreateTransactionRequest, CreateTransactionResponse, LoadTransactionsResponse, Transaction, UpdateTransactionRequest } from "../../shared/types";
 import { MOCK_CREATE_TRANSACTION_RESPONSE, MOCK_LOAD_TRANSACTIONS } from "./mocks";
 
+export const ITEMS_PER_PAGE = 15
+
 export const createTransaction = async (_createTransaction: CreateTransactionRequest): Promise<CreateTransactionResponse> => {
   return new Promise((resolve) => {
     setTimeout(() => {

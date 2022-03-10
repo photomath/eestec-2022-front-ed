@@ -1,0 +1,19 @@
+.Dashboard {
+  position: relative;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-items: center;
+  align-content: flex-start;
+}
+
+.Navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 16px;
+}
+
+.Alert {
+  margin: 16px;
+}

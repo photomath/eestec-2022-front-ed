@@ -1,33 +1,44 @@
-import { Route, Routes } from 'react-router-dom'
-import { MOCK_BALANCE_SHEET } from './api/mocks'
+import { useCallback, useState } from 'react'
+import { Route, Routes, useNavigate } from 'react-router-dom'
+import { User } from '../shared/types'
+import { logout } from './api/login'
 
 import './App.css'
-import { TransactionFormModal } from './components/TransactionForm'
-import { TransactionTable } from './components/TransactionTable'
+import { Protected } from './components/Protected'
+import { Dashboard } from './pages/Dashboard'
 import { LoginForm } from './pages/Login'
 import { SignUpForm } from './pages/SignUp'
 
 function App() {
+  const [user, setUser] = useState<User>()
+  const navigate = useNavigate()
+
+  const onLogin = useCallback(
+    (user: User) => {
+      setUser(user)
+      navigate('/')
+    },
+    [navigate]
+  )
+
+  const onLogout = useCallback(async () => {
+    await logout()
+    setUser(undefined)
+  }, [])
+
   return (
     <div className='App'>
       <Routes>
-        <Route path='/' element={<div>TODO</div>} />
-        <Route path='/login' element={<LoginForm onLogin={() => {}} />} />
-        <Route path='/signup' element={<SignUpForm onSignUp={() => {}} />} />
-        <Route path='/transaction' element={<TransactionFormModal show={true} onHide={() => {}} />} />
         <Route
-          path='/transactions'
+          path='/'
           element={
-            <TransactionTable
-              currentPage={0}
-              pages={5}
-              transactions={MOCK_BALANCE_SHEET}
-              onPageClick={() => {}}
-              onTransactionDelete={() => {}}
-              onTransactionEdit={() => {}}
-            />
+            <Protected user={user}>
+              <Dashboard user={user!} onLogout={onLogout} />
+            </Protected>
           }
         />
+        <Route path='/login' element={<LoginForm onLogin={onLogin} />} />
+        <Route path='/signup' element={<SignUpForm onSignUp={onLogin} />} />
       </Routes>
     </div>
   )
