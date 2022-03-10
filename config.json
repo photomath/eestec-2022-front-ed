@@ -1,0 +1,12 @@
+{
+  "db": {
+    "connectionString": "mongodb://localhost:27017/eestec2022db"
+  },
+  "sessionStore": {
+    "connectionString": "mongodb://localhost:27017/eestec2022sessions",
+    "collection": "session"
+  },
+  "security": {
+    "secret": "eestec2022"
+  }
+}
