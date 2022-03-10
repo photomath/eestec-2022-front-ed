@@ -1,0 +1,16 @@
+.UserBalanceWrapper {
+}
+
+.UserBalance {
+  margin: 16px;
+  padding: 16px;
+  border: 1px solid lightgray;
+  border-radius: 8px;
+}
+
+.BalanceAmount {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
