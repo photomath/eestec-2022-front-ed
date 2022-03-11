@@ -43,6 +43,7 @@
     "listen": "nodemon --watch \"src/server/**\" --ext \"ts,json\" --ignore \"src/server/**/*.spec.ts\" --exec \"ts-node --project ./tsconfig.server.json src/server/index.ts\"",
     "mongo": "mongod --config /usr/local/etc/mongod.conf"
   },
+  "proxy": "http://localhost:3080",
   "eslintConfig": {
     "extends": [
       "react-app",

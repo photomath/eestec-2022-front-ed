@@ -1,36 +1,110 @@
-import { CreateTransactionRequest, CreateTransactionResponse, LoadTransactionsResponse, Transaction, UpdateTransactionRequest } from "../../shared/types";
-import { MOCK_CREATE_TRANSACTION_RESPONSE, MOCK_LOAD_TRANSACTIONS } from "./mocks";
+import {
+  CreateTransactionRequest,
+  CreateTransactionResponse,
+  LoadTransactionsResponse,
+  Transaction,
+  UpdateTransactionRequest,
+  UpdateTransactionResponse,
+} from "../../shared/types";
+import { buildApiUrl } from "./utils";
 
-export const ITEMS_PER_PAGE = 15
+export const createTransaction = async (createTransaction: CreateTransactionRequest): Promise<CreateTransactionResponse> => {
+  const response = await fetch(
+    buildApiUrl('transaction'),
+    {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(createTransaction),
+      credentials: 'include',
+    },
+  )
 
-export const createTransaction = async (_createTransaction: CreateTransactionRequest): Promise<CreateTransactionResponse> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(MOCK_CREATE_TRANSACTION_RESPONSE)
-    }, 1000)
-  })
+  const json = await response.json()
+
+  if (response.status !== 200) {
+    throw new Error(json.message)
+  } else {
+    return {
+      ...json,
+      date: new Date(json.date),
+    } as CreateTransactionResponse
+  }
 }
 
-export const updateTransaction = async (_updateTransaction: UpdateTransactionRequest): Promise<CreateTransactionResponse> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(MOCK_CREATE_TRANSACTION_RESPONSE)
-    }, 1000)
-  })
+export const updateTransaction = async (updateTransaction: UpdateTransactionRequest): Promise<CreateTransactionResponse> => {
+  const response = await fetch(
+    buildApiUrl(`transaction/${updateTransaction.id}`),
+    {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(updateTransaction),
+      credentials: 'include',
+    },
+  )
+
+  const json = await response.json()
+
+  if (response.status !== 200) {
+    throw new Error(json.message)
+  } else {
+    return {
+      ...json,
+      date: new Date(json.date),
+    } as UpdateTransactionResponse
+  }
 }
 
-export const deleteTransaction = async (_transaction: Transaction): Promise<void> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve()
-    }, 1000)
-  })
+export const deleteTransaction = async (deleteTransaction: Transaction): Promise<void> => {
+  const response = await fetch(
+    buildApiUrl(`transaction/${deleteTransaction.id}`),
+    {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+    },
+  )
+
+  const json = await response.json()
+
+  if (response.status !== 200) {
+    throw new Error(json.message)
+  }
 }
 
-export const loadTransactions = async (_page: number): Promise<LoadTransactionsResponse> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(MOCK_LOAD_TRANSACTIONS)
-    }, 1000)
-  })
+export const ITEMS_PER_PAGE = 10
+
+export const loadTransactions = async (page: number): Promise<LoadTransactionsResponse> => {
+  const limit = ITEMS_PER_PAGE
+  const offset = page * limit
+  const response = await fetch(
+    buildApiUrl(`transactions?limit=${limit}&offset=${offset}`),
+    {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+    },
+  )
+
+  const json = await response.json()
+
+  if (response.status !== 200) {
+    throw new Error(json.message)
+  } else {
+    return {
+      ...json,
+      transactions: json.transactions.map((t: Transaction) => ({ ...t, date: new Date(t.date) }))
+    } as LoadTransactionsResponse
+  }
 }

@@ -1,26 +1,61 @@
 import { LoginRequest, User } from "../../shared/types";
-import { MOCK_USER } from "./mocks";
+import { buildApiUrl } from "./utils";
 
-export const login = async (_loginRequest: LoginRequest): Promise<User> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(MOCK_USER)
-    }, 1000)
-  })
+export const login = async (loginRequest: LoginRequest): Promise<User> => {
+  const response = await fetch(
+    buildApiUrl('login'),
+    {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(loginRequest),
+      credentials: 'include',
+    },
+  )
+
+  const json = await response.json()
+
+  if (response.status !== 200) {
+    throw new Error(json.message)
+  } else {
+    return json as User
+  }
 }
 
 export const logout = async (): Promise<void> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve()
-    }, 1000)
-  })
+  await fetch(
+    buildApiUrl('logout'),
+    {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+    },
+  )
 }
 
 export const me = async (): Promise<User> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(MOCK_USER)
-    }, 1000)
-  })
+  const response = await fetch(
+    buildApiUrl('me'),
+    {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+    },
+  )
+
+  const json = await response.json()
+
+  if (response.status !== 200) {
+    throw new Error(json.message)
+  } else {
+    return json as User
+  }
 }
