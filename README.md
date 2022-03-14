@@ -4,6 +4,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Disclaimer - this repo is meant to showcase a simple project containing client, server and database code using MERN stack built step-by-step for educational purpose only as a part of a lecture for EESTEC FrontEd 2022. It is in no way meant to be built for production nor is it ready for it.
 
+Presentation slides can be found in [docs/mern_stack_in_action.pdf](docs/mern_stack_in_action.pdf)
+
 ## Setup
 
 * `npm i` - installs all the packages listed in `package.json`
